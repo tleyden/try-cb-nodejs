@@ -9,7 +9,10 @@
 #
 FROM centos:6
 
-RUN yum -y install gcc-c++
+# Install yum dependencies
+RUN yum install -y gcc-c++ \
+    tar \
+    && yum clean all
 
 # Originally from https://github.com/joyent/docker-node Dockerfile...
 #
