@@ -29,3 +29,26 @@ The steps below assume you are running a standalone couchbase instance running k
 --Loads the dataset dynamically based on options in the "config.json" file.   
 --If dataset="repo", the application will build a sample bucket called "travel-sample" by loading raw json formatted air travel documents from the file in try-cb/model/raw/rawJsonAir.js and dynamically build scheduling information.  This is useful for learning how to programitically build a bucket, perform ingestions of data and how to become familiar with the CB SDK API.  
 --If dataset="embedded", the application load the above information from the included sample bucket within couchbase known as "travel-sample"
+
+
+## Running under Docker
+
+Start couchbase server
+
+```
+$ docker run --name couchbase -p 8091:8091 -p 8092:8092 -p 8093:8093 -d couchbase/server:enterprise-4.0.0-dp
+```
+
+Go to port 8091 and manually provision the only node in the cluster.
+
+Start travel app.
+
+```
+$ docker run -d --link couchbase:couchbase -p 3000:3000 try-cb-nodejs 
+```
+
+Initialize db
+
+```
+$ curl -X "POST" "http://localhost:3000/api/status/provisionCB"
+```

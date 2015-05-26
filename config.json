@@ -1,7 +1,7 @@
 {
   "couchbase":{
-    "endPoint":"localhost:8091",
-    "n1qlService":"localhost:8093",
+    "endPoint":"couchbase:8091",
+    "n1qlService":"couchbase:8093",
     "hostName":"127.0.0.1",
     "bucket":"travel-sample",
     "user":"Administrator",
