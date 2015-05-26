@@ -43,10 +43,6 @@ COPY . /usr/src/app
 
 RUN npm install
 
-# Finish couchbase and try-cb-nodejs setup...
-#
-RUN /usr/src/app/config.batinc
-
 EXPOSE 3000
 
 ENTRYPOINT ["/bin/bash", "-c"]
