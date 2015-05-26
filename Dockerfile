@@ -1,17 +1,13 @@
-# This Dockerfile and related *.batinc files are for building a
-# "batteries included" docker image, where database, application and
-# sample data are all included and pre-installed in a single docker
-# image for ease of use.
-#
+
 # To build the try-cb-nodejs docker image...
 #
 #    docker build -t try-cb-nodejs .
 #
 # To launch the try-cb-nodejs docker image in a container instance...
 #
-#    docker run -it --rm -p 3000:3000 -p 8091:8091 try-cb-nodejs
+#    docker run -it --rm -p 3000:3000 try-cb-nodejs
 #
-FROM couchbase/server:enterprise-4.0.0-dp
+FROM centos:6
 
 RUN yum -y install gcc-c++
 
@@ -48,7 +44,7 @@ RUN npm install
 #
 RUN /usr/src/app/config.batinc
 
-EXPOSE 3000 8091 8092 8093 11210 11211
+EXPOSE 3000
 
 ENTRYPOINT ["/bin/bash", "-c"]
 
