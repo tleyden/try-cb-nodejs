@@ -30,25 +30,50 @@ The steps below assume you are running a standalone couchbase instance running k
 --If dataset="repo", the application will build a sample bucket called "travel-sample" by loading raw json formatted air travel documents from the file in try-cb/model/raw/rawJsonAir.js and dynamically build scheduling information.  This is useful for learning how to programitically build a bucket, perform ingestions of data and how to become familiar with the CB SDK API.  
 --If dataset="embedded", the application load the above information from the included sample bucket within couchbase known as "travel-sample"
 
-
 ## Running under Docker
 
-Start couchbase server
+### Start Couchbase Server
 
 ```
 $ docker run --name couchbase -p 8091:8091 -p 8092:8092 -p 8093:8093 -d couchbase/server:enterprise-4.0.0-dp
 ```
 
-Go to port 8091 and manually provision the only node in the cluster.
+### Initialize Couchbase Server
+
+```
+$ docker run -ti --rm --entrypoint="/bin/bash" --link couchbase:couchbase couchbase/server:enterprise-4.0.0-dp
+```
+
+From inside the docker container run:
+
+```
+docker~$ curl https://gist.githubusercontent.com/tleyden/059fc4e044bf0fae59cb/raw/1ca045135d7ca74ca201324634fa71f9bc37e996/gistfile1.sh | bash
+```
+
+Exit from the docker container
+
+```
+$ exit
+```
+
+### Start Travel App
 
 Start travel app.
 
 ```
-$ docker run -d --link couchbase:couchbase -p 3000:3000 try-cb-nodejs 
+$ docker run -d --link couchbase:couchbase -p 3000:3000 tleyden5iwx/try-cb-nodejs 
 ```
 
-Initialize db
+### Initialize Travel App database
+
+Run this on the host where the container was kicked off from.
 
 ```
 $ curl -X "POST" "http://localhost:3000/api/status/provisionCB"
 ```
+
+If you run `docker logs -f $container_id` and pass the container id of the `tleyden5iwx/try-cb-nodejs` container, you should see logs similar to [these](https://gist.github.com/tleyden/dbafd8a84176d52f0d0b)
+
+### View Travel App website
+
+In your browser, go to http://localhost:3000 and you should see the Travel App website.
