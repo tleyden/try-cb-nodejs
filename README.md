@@ -32,10 +32,22 @@ The steps below assume you are running a standalone couchbase instance running k
 
 ## Running under Docker
 
+### Create volume dir
+
+```
+$ rm -rf /tmp/data && mkdir /tmp/data
+```
+
 ### Start Couchbase Server
 
 ```
-$ docker run --name couchbase -p 8091:8091 -p 8092:8092 -p 8093:8093 -d couchbase/server:enterprise-4.0.0-dp
+$ docker run --name couchbase -v /tmp/data:/opt/couchbase/var -p 8091:8091 -p 8092:8092 -p 8093:8093 -d couchbase/server:enterprise-4.0.0-dp
+```
+
+To view Couchbase logs, run:
+
+```
+$ tail -f /tmp/data/lib/couchbase/logs/*
 ```
 
 ### Initialize Couchbase Server
@@ -47,7 +59,7 @@ $ docker run -ti --rm --entrypoint="/bin/bash" --link couchbase:couchbase couchb
 From inside the docker container run:
 
 ```
-docker~$ curl https://gist.githubusercontent.com/tleyden/059fc4e044bf0fae59cb/raw/1ca045135d7ca74ca201324634fa71f9bc37e996/gistfile1.sh | bash
+[root@96e4990f51c2 /]$ curl https://gist.githubusercontent.com/tleyden/059fc4e044bf0fae59cb/raw/1ca045135d7ca74ca201324634fa71f9bc37e996/gistfile1.sh | bash
 ```
 
 Exit from the docker container
