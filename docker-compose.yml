@@ -1,0 +1,13 @@
+travel:
+  image: tleyden5iwx/try-cb-nodejs
+  ports:
+   - "80:3000"
+  links: ["couchbase"]
+couchbase:
+  image: couchbase/server:enterprise-4.0.0-dp
+  ports:
+   - "8091:8091"
+   - "8092:8092"
+   - "8093:8093"
+  volumes:
+   - /home/docker/couch:/opt/couchbase/var
