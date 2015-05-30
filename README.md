@@ -89,3 +89,51 @@ If you run `docker logs -f $container_id` and pass the container id of the `tley
 ### View Travel App website
 
 In your browser, go to http://localhost:3000 and you should see the Travel App website.
+
+## Running with docker-compose
+
+If you use boot2docker
+```
+$ boot2docker ssh
+```
+
+```
+$ rm -rf /home/docker/couch && mkdir /home/docker/data
+```
+
+### Start app
+
+```
+$ docker-compose up
+```
+
+### Initialize Couchbase Server
+
+```
+$ docker run -ti --rm --entrypoint="/bin/bash" --link trycbnodejs_couchbase_1:couchbase couchbase/server:enterprise-4.0.0-dp
+```
+
+From inside the docker container run:
+
+```
+[root@96e4990f51c2 /]$ curl https://gist.githubusercontent.com/tleyden/059fc4e044bf0fae59cb/raw/1ca045135d7ca74ca201324634fa71f9bc37e996/gistfile1.sh | bash
+```
+
+Exit from the docker container
+
+```
+$ exit
+```
+
+### Initialize Travel App database
+
+Run this on the host where the container was kicked off from.
+
+```
+$ IP=`boot2docker ip`
+$ curl -X "POST" "http://$IP/api/status/provisionCB"
+```
+
+### View Travel App website
+
+In your browser, go to http://<boot2docker ip> and you should see the Travel App website.
